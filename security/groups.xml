@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.module.category" id="model_upaya">
+            <field name="name">Upaya</field>
+            <field name="sequence">20</field>
+        </record>
+<!--        <record id="tickets_user" model="res.groups">-->
+<!--            <field name="name">User</field>-->
+<!--            <field name="category_id" ref="tickets.model_tickets"/>-->
+<!--        </record>-->
+        <record id="upaya_coordinator" model="res.groups">
+            <field name="name">Coordinator</field>
+            <field name="category_id" ref="upaya.model_upaya"/>
+        </record>
+        <record id="upaya_hr" model="res.groups">
+            <field name="name">HR</field>
+            <field name="category_id" ref="upaya.model_upaya"/>
+        </record>
+
+    </data>
+</odoo>

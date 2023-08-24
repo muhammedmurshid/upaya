@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_upaya_base,access_details,model_upaya_form,upaya_coordinator,1,1,1,1
+access_upaya_attendance,access_details,model_upaya_students_attendance,upaya_coordinator,1,1,1,1
+access_upaya_base_hr,access_details,model_upaya_form,upaya_hr,1,1,1,1
+access_upaya_attendance_hr,access_details,model_upaya_students_attendance,upaya_hr,1,1,1,1
