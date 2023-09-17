@@ -32,15 +32,26 @@
                             <field name="batch_end_date" invisible="1"/>
                         </group>
                         <group>
+                            <field name="team"/>
+                            <field name="subject_for_presentation"/>
+                        </group>
+                        <group>
                             <field name="coordinator_id"/>
                         </group>
                     </group>
                     <notebook attrs="{'invisible': [('state','in', ['draft','cancel'])]}">
-                        <page string="Attendance" name="attribute">
+                        <page string="Skills" name="attribute">
                             <field name="upaya_attendance_ids">
-                                <tree string="Attendance" editable="bottom">
+                                <tree string="Skills" editable="bottom">
                                     <field name="name"/>
-                                    <field name="attendance"/>
+                                    <field name="communication_skill" widget="priority"/>
+                                    <field name="presentation_skill" widget="priority"/>
+                                    <field name="language_skill" widget="priority"/>
+                                    <field name="confidence_level" widget="priority"/>
+                                    <field name="body_language" widget="priority"/>
+                                    <field name="dressing_pattern" widget="priority"/>
+                                    <field name="friendliness" widget="priority"/>
+                                    <field name="attitude" widget="priority"/>
                                     <field name="student_id" invisible="1"/>
 
                                 </tree>

@@ -6,6 +6,7 @@
     'data': [
         'security/groups.xml',
         'security/ir.model.access.csv',
+        'security/record_rule_upaya.xml',
         'views/upaya.xml',
         'data/activity.xml',
 

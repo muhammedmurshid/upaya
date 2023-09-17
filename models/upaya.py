@@ -15,6 +15,8 @@ class UpayaForm(models.Model):
     date = fields.Date('Date', required=True)
     batch_start_date = fields.Date('Batch Start Date', )
     batch_end_date = fields.Date('Batch End Date', )
+    team = fields.Char('Team')
+    subject_for_presentation = fields.Char('Subject For Presentation')
     state = fields.Selection(
         [('draft', 'Draft'), ('submit', 'Submitted'), ('confirm', 'Confirmed'), ('complete', 'Completed'), ('cancel', 'Cancelled')],
         default='draft', string='Status',
