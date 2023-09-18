@@ -61,33 +61,33 @@ class UpayaForm(models.Model):
         self.state = 'submit'
 
     def action_complete(self):
-        # student = self.env['logic.students'].search([('id', 'in', [stud.student_id for stud in self.upaya_attendance_ids])])
-        # print(student, 'rrr')
-        # print([stud.student_id for stud in self.upaya_attendance_ids])
-        # students = []
-        # for rec in student:
-        #     for i in self.upaya_attendance_ids:
-        #         print(i.id, 'id')
-        #         # print(str(k.student_id), 'student id')
-        #         if rec.id == i.student_id:
-        #             print('yeaa')
-        #             stdt = {
-        #                 'name': i.name,
-        #                 'attendance': i.attendance,
-        #                 'date': self.date,
-        #                 'stud_id': i.student_id
-        #             }
-        #             students.append((0, 0, stdt))
-        #             rec.upaya_std_ids = students
-        #
-        #         else:
-        #             print('noo')
-        #         std = self.env['logic.students'].search([])
-        #         for jk in std:
-        #             for jkm in jk.upaya_std_ids:
-        #                 print(jkm.name, 'name')
-        #                 if jkm.stud_id != jk.id:
-        #                     jkm.unlink()
+        student = self.env['logic.students'].search([('id', 'in', [stud.student_id for stud in self.upaya_attendance_ids])])
+        print(student, 'rrr')
+        print([stud.student_id for stud in self.upaya_attendance_ids])
+        students = []
+        for rec in student:
+            for i in self.upaya_attendance_ids:
+                print(i.id, 'id')
+                # print(str(k.student_id), 'student id')
+                if rec.id == i.student_id:
+                    print('yeaa')
+                    stdt = {
+                        'name': i.name,
+                        'attendance': True,
+                        'date': self.date,
+                        'stud_id': i.student_id
+                    }
+                    students.append((0, 0, stdt))
+                    rec.upaya_std_ids = students
+
+                else:
+                    print('noo')
+                std = self.env['logic.students'].search([])
+                for jk in std:
+                    for jkm in jk.upaya_std_ids:
+                        print(jkm.name, 'name')
+                        if jkm.stud_id != jk.id:
+                            jkm.unlink()
 
         activity_id = self.env['mail.activity'].search([('res_id', '=', self.id), ('user_id', '=', self.env.user.id), (
             'activity_type_id', '=', self.env.ref('upaya.mail_activity_upaya_form').id)])
