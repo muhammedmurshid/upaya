@@ -22,7 +22,7 @@ class UpayaForm(models.Model):
     )
     type = fields.Selection([('case_study', 'Case Study'), ('topic_presentation', 'Topic Presentation')], string='Type')
     upaya_attendance_ids = fields.One2many('upaya.students.attendance', 'upaya_id')
-    coordinator_id = fields.Many2one('res.users', string='Coordinator', default=lambda self: self.env.user, readonly=1)
+    coordinator_id = fields.Many2one('res.users', string='Coordinator', default=lambda self: self.env.user)
     display_name = fields.Char(compute='_compute_display_name', store=True)
 
     @api.onchange('batch_id')
@@ -53,6 +53,17 @@ class UpayaForm(models.Model):
             'activity_type_id', '=', self.env.ref('upaya.mail_activity_upaya_form').id)])
         other_activity_ids.unlink()
         self.state = 'confirm'
+
+    @api.depends('make_visible_academic_head', 'batch_id')
+    def _compute_academic_head_upaya(self):
+        res_user = self.env['res.users'].search([('id', '=', self.env.user.id)])
+        if res_user.has_group('upaya.upaya_head'):
+            self.make_visible_academic_head = True
+
+        else:
+            self.make_visible_academic_head = False
+
+    make_visible_academic_head = fields.Boolean(string="User", compute='_compute_academic_head_upaya')
 
     def action_submit(self):
         print('jkkk')

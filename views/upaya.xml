@@ -36,7 +36,8 @@
                             <field name="subject_for_presentation"/>
                         </group>
                         <group>
-                            <field name="coordinator_id"/>
+                            <field name="make_visible_academic_head" invisible="1"/>
+                            <field name="coordinator_id" attrs="{'readonly': [('make_visible_academic_head','=', False)]}"/>
                         </group>
                     </group>
                     <notebook attrs="{'invisible': [('state','in', ['draft','cancel'])]}">
