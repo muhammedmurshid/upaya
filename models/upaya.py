@@ -7,10 +7,9 @@ class UpayaForm(models.Model):
     _name = 'upaya.form'
     _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
     _description = 'Upaya Form'
-    _rec_name = 'rec_name'
 
     name = fields.Char('Name')
-    rec_name = fields.Char('Rec Name', compute='_compute_rec_name')
+
     batch_id = fields.Many2one('logic.base.batch', string='Batch', required=True)
     date = fields.Date('Date', required=True)
     batch_start_date = fields.Date('Batch Start Date', )
@@ -24,13 +23,13 @@ class UpayaForm(models.Model):
     type = fields.Selection([('case_study', 'Case Study'), ('topic_presentation', 'Topic Presentation')], string='Type')
     upaya_attendance_ids = fields.One2many('upaya.students.attendance', 'upaya_id')
     coordinator_id = fields.Many2one('res.users', string='Coordinator', default=lambda self: self.env.user, readonly=1)
+    display_name = fields.Char(compute='_compute_display_name', store=True)
 
-    def _compute_rec_name(self):
+    @api.onchange('batch_id')
+    def _compute_display_name(self):
         for rec in self:
-            if rec.type:
-                rec.rec_name = rec.batch_id.name + ' - ' + rec.type
-            else:
-                rec.rec_name = rec.date+' - '+rec.batch_id.name
+            if rec.batch_id:
+                rec.display_name = rec.batch_id.name + ' - ' + 'Upaya'
 
     @api.onchange('batch_id')
     def onchange_batch_id(self):
