@@ -22,8 +22,9 @@ class UpayaForm(models.Model):
     )
     type = fields.Selection([('case_study', 'Case Study'), ('topic_presentation', 'Topic Presentation')], string='Type')
     upaya_attendance_ids = fields.One2many('upaya.students.attendance', 'upaya_id')
-    coordinator_id = fields.Many2one('res.users', string='Coordinator', default=lambda self: self.env.user)
+    coordinator_id = fields.Many2one('res.users', string='Coordinator', related='batch_id.academic_coordinator')
     display_name = fields.Char(compute='_compute_display_name', store=True)
+    pro_coordinator_id = fields.Many2one('res.users', string='Programme Coordinator', default=lambda self: self.env.user)
 
     @api.onchange('batch_id')
     def _compute_display_name(self):
