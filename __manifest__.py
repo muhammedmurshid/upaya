@@ -9,6 +9,7 @@
         'security/record_rule_upaya.xml',
         'views/upaya.xml',
         'data/activity.xml',
+        'views/upaya_teams.xml'
 
     ],
     'demo': [],

@@ -9,9 +9,16 @@
                 <header>
                     <field name="state" widget="statusbar"/>
                     <!--                    <button name="%(portal.portal_share_wizard)d" title="Create Wizard" type="action" string="wizard"/>-->
-                    <button name="action_submit" class="oe_highlight" string="Submit" states="draft" type="object"/>
+                    <button name="action_submit" class="oe_highlight" string="Completed" states="training"
+                            type="object"/>
                     <button name="action_confirm" type="object" string="Confirm" states="submit" class="oe_highlight"/>
                     <button name="action_complete" type="object" string="Complete" states="confirm"
+                            class="oe_highlight"/>
+                    <button name="training_start" string="Training Start" type="object" states="draft"
+                            class="oe_highlight"/>
+                    <button name="action_team_split" string="Team Split" type="object" states="training_completed"
+                            class="oe_highlight"/>
+                    <button name="action_start_upaya" type="object" string="Start Upaya" states="split"
                             class="oe_highlight"/>
                     <button name="action_cancel" type="object" string="Cancel" states="confirm,submit"/>
                 </header>
@@ -30,20 +37,36 @@
                             <field name="date"/>
                             <field name="batch_start_date" invisible="1"/>
                             <field name="batch_end_date" invisible="1"/>
+                            <!--                            <field name="subject_for_presentation"/>-->
+                        </group>
+                        <group string="Training Days">
+                            <field name="from_date"/>
+                            <field name="to_date"/>
+
                         </group>
                         <group>
-                            <field name="team"/>
-                            <field name="subject_for_presentation"/>
-                        </group>
-                        <group>
-                            <field name="pro_coordinator_id" readonly="1"/>
+                            <!--                            <field name="pro_coordinator_id" readonly="1"/>-->
                             <field name="make_visible_academic_head" invisible="1"/>
-                            <field name="coordinator_id" string="Assign to Coordinator"/>
+                            <field name="coordinator_id"/>
                         </group>
                     </group>
-                    <notebook attrs="{'invisible': [('state','in', ['draft','cancel'])]}">
-                        <page string="Skills" name="attribute">
+                    <notebook>
+                        <page string="Students" name="attribute">
                             <field name="upaya_attendance_ids">
+                                <tree string="Skills" editable="bottom">
+                                    <field name="name"/>
+                                    <field name="attendance"/>
+                                    <field name="team_id"
+                                           attrs="{'invisible': [('state','in', ['draft','training'])]}"/>
+                                    <field name="student_id" invisible="1"/>
+                                    <field name="topic_for_presentation"/>
+                                    <field name="state" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Skills" name="attribute"
+                              attrs="{'invisible': [('state','in', ['draft','training','cancel','training_completed','split'])]}">
+                            <field name="skills_ids">
                                 <tree string="Skills" editable="bottom">
                                     <field name="name"/>
                                     <field name="communication_skill" widget="priority"/>
@@ -55,9 +78,17 @@
                                     <field name="friendliness" widget="priority"/>
                                     <field name="attitude" widget="priority"/>
                                     <field name="student_id" invisible="1"/>
-
+                                    <field name="total_score"/>
                                 </tree>
                             </field>
+                        </page>
+                        <page string="Winners" name="attribute"
+                              attrs="{'invisible': [('state','in', ['draft','training','cancel','training_completed','split','confirm'])]}">
+                            <h3 align="center" style="color: green">Winner is</h3>
+                            <group>
+
+                                <field name="winner_id" widget="many2many_tags"/>
+                            </group>
                         </page>
                     </notebook>
                 </sheet>

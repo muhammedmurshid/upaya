@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="upaya_teams_form_view" model="ir.ui.view">
+        <field name="name">Upaya Teams</field>
+        <field name="model">upaya.teams</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="upaya teams">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="topic_for_presentation"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Students" name="students">
+                            <field name="teams_ids" widget="one2many">
+                                <tree string="Students" editable="bottom">
+                                    <field name="student_id"/>
+                                    <field name="student_score"/>
+                                </tree>
+                            </field>
+                            <group>
+                                <field name="total_team_score"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"
+                           widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="upaya_teams_tree_view" model="ir.ui.view">
+        <field name="name">Teams</field>
+        <field name="model">upaya.teams</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="total_team_score"/>
+            </tree>
+
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="upaya_teams_action_id">
+        <field name="name">Upaya Teams</field>
+        <field name="res_model">upaya.teams</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem name="Teams" id="menu_teams_upaya" action="upaya_teams_action_id"
+              parent="upaya_main_menu"
+              groups="upaya.upaya_coordinator"
+              sequence="4"/>
+</odoo>
