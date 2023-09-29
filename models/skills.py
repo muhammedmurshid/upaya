@@ -62,4 +62,4 @@ class UpayaSkills(models.Model):
             # print(aa, 'total')
             # self.write({'total_score': aa})
 
-    total_score = fields.Float('Total Score', compute='_compute_total_score', store=True)
+    total_score = fields.Float('Score', compute='_compute_total_score', store=True)

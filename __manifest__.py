@@ -12,6 +12,11 @@
         'views/upaya_teams.xml'
 
     ],
+    'assets': {
+        'web.assets_backend': [
+            'upaya/static/src/css/winning_effect.css'],
+    },
+
     'demo': [],
     'summary': "upaya_logic",
     'description': "this_is_upaya_module",

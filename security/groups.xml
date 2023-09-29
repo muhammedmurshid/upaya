@@ -13,10 +13,6 @@
             <field name="name">Coordinator</field>
             <field name="category_id" ref="upaya.model_upaya"/>
         </record>
-        <record id="programme_coordinator_upaya" model="res.groups">
-            <field name="name">Programme Coordinator</field>
-            <field name="category_id" ref="upaya.model_upaya"/>
-        </record>
         <record id="upaya_hr" model="res.groups">
             <field name="name">HR Manager</field>
             <field name="category_id" ref="upaya.model_upaya"/>

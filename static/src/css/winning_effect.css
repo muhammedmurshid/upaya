@@ -1,0 +1,15 @@
+.champions-effect {
+                    background: linear-gradient(to right, gold, orange, red);
+                    background-size: 200% auto;
+                    animation: championsAnimation 2s linear infinite;
+                    height: 10px; /* Adjust the height as needed */
+                    }
+
+                    @keyframes championsAnimation {
+                    0% {
+                    background-position: 0 0;
+                    }
+                    100% {
+                    background-position: 100% 0;
+                    }
+                    }

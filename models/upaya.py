@@ -21,7 +21,7 @@ class UpayaForm(models.Model):
         [('draft', 'Draft'), ('training', 'Training'), ('training_completed', 'Training Completed'),
          ('split', 'Splitted'), ('confirm', 'Upaya Started'),
          ('complete', 'Completed'), ('cancel', 'Cancelled')],
-        default='draft', string='Status',
+        default='draft', string='Status', tracking=True
     )
     type = fields.Selection([('case_study', 'Case Study'), ('topic_presentation', 'Topic Presentation')], string='Type')
     upaya_attendance_ids = fields.One2many('upaya.students.attendance', 'upaya_id')
@@ -70,6 +70,17 @@ class UpayaForm(models.Model):
             }
             abc.append((0, 0, res_list))
         self.skills_ids = abc
+
+        # students_attended = []
+        # for i in self.upaya_attendance_ids:
+        #    if i.attendance:
+        #        if i.attendance == True:
+        #            score_list = {
+        #                'name': i.name,
+        #                'student_id': i.student_id,
+        #            }
+        #            students_attended.append((0, 0, score_list))
+        # self.skills_ids = students_attended
         self.state = 'confirm'
 
     @api.onchange('batch_id')
@@ -143,13 +154,54 @@ class UpayaForm(models.Model):
             self.write(
                 {'winner_id': [(4, win.id)]}
                        )
+        # students attendance
+
+        # base_student = self.env['logic.students'].search([])
+        # for i in base_student:
+        #     for j in self.skills_ids:
+        #         if i.id == j.student_id:
+        #             res_list = {
+        #                 'name': i.name,
+        #                 'attendance': True,
+        #                 'date': self.date
+        #             }
+
         # print(winner.name, 'winner')
         # self.winner_id = winner.id
 
-    winner_id = fields.Many2many('upaya.teams', string='Winner')
+    winner_id = fields.Many2many('upaya.teams', string='Champions')
 
-        # record = record_teams.search([], order='total_team_score desc', limit=1).total_team_score)
-        # print(record_teams.name, 'winner')
+    @api.depends('skills_ids.total_score')
+    def _total_bach_score(self):
+        for rec in self:
+            total = 0
+            for order in rec.skills_ids:
+                total += order.total_score
+            rec.update({
+                'total_batch_score': total,
+
+            })
+
+    total_batch_score = fields.Float(string='Total Score', compute='_total_bach_score', store=True)
+
+    @api.depends('skills_ids')
+    def _compute_upaya_attended_count(self):
+        for rec in self:
+            rec.count_attended_upaya = len(rec.skills_ids)
+
+    count_attended_upaya = fields.Integer(compute='_compute_upaya_attended_count', store=True, string="Attended Students")
+
+    @api.depends('batch_id')
+    def _compute_batch_students_count(self):
+        for rec in self:
+            rec.count_batch_students = len(self.env['logic.students'].search([('batch_id', '=', rec.batch_id.id)]))
+    count_batch_students = fields.Char(compute='_compute_batch_students_count', store=True, string="Batch Students")
+
+    @api.depends('count_batch_students','count_attended_upaya')
+    def _compute_upaya_attendance_count_two(self):
+        for rec in self:
+            rec.attend_std_total_std = rec.count_batch_students + '/' + str(rec.count_attended_upaya)
+    attend_std_total_std = fields.Char(compute='_compute_upaya_attendance_count_two', store=True, string="Attended Students")
 
     @api.onchange('batch_id')
     def onchange_batch_id_for_attendance(self):
@@ -214,12 +266,6 @@ class UpayaForm(models.Model):
                 for j in users:
                     i.activity_schedule('upaya.mail_activity_upaya_form', user_id=j.id,
                                         note=f'Tomorrow: Upaya reminder.')
-
-
-
-    # @api.model
-    # def action_share(self):
-    #     print('kkk')
 
 
 class UpayaTeams(models.Model):

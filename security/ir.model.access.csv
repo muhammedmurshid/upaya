@@ -1,13 +1,11 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 
-access_upaya_base,access_details,model_upaya_form,upaya_coordinator,1,1,1,0
+access_upaya_base,access_details,model_upaya_form,upaya_coordinator,1,1,1,1
 access_upaya_attendance,access_details,model_upaya_students_attendance,upaya_coordinator,1,1,1,1
 access_upaya_base_hr,access_details,model_upaya_form,upaya_hr,1,1,1,1
 access_upaya_attendance_hr,access_details,model_upaya_students_attendance,upaya_hr,1,1,1,1
 access_upaya_base_head,access_details,model_upaya_form,upaya_head,1,1,1,1
 access_upaya_attendance_head,access_details,model_upaya_students_attendance,upaya_head,1,1,1,1
-access_upaya_pro_coordinator,access_details,model_upaya_form,programme_coordinator_upaya,1,1,1,1
-access_upaya_attendance_pro_coordinator,access_details,model_upaya_students_attendance,programme_coordinator_upaya,1,1,1,1
 access_teams_upaya,access_details,model_upaya_teams,upaya_coordinator,1,1,1,1
 access_teams_upaya_skills,access_details,model_upaya_skills,,1,1,1,1
 access_teams_upaya_teams_students,access_details,model_upaya_teams_students,,1,1,1,1

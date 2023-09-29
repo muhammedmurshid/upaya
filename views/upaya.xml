@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <template id="custom_form_view" inherit_id="upaya.logic_upaya_module_form">
+        <xpath expr="//field[@name='winner_id']" position="inside">
+            <div class="champions-stars-effect"></div>
+        </xpath>
+    </template>
+
+
     <record id="logic_upaya_module_form" model="ir.ui.view">
         <field name="name">Upaya</field>
         <field name="model">upaya.form</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Upaya">
+                <style>
+                    .winning-fire-effect {
+                    background: linear-gradient(to right, #FF0000, #FF4500, #FF8C00, #FFD700, #c7c728, #f27ce0, #7caff2,
+                    #7caff2);
+                    background-size: 400% 100%;
+                    animation: fireEffect 5s linear infinite;
+                    }
+
+                    @keyframes fireEffect {
+                    0% {
+                    background-position: 0 0;
+                    }
+                    100% {
+                    background-position: 100% 0;
+                    }
+                    }
+
+                </style>
                 <header>
                     <field name="state" widget="statusbar"/>
                     <!--                    <button name="%(portal.portal_share_wizard)d" title="Create Wizard" type="action" string="wizard"/>-->
@@ -81,14 +106,28 @@
                                     <field name="total_score"/>
                                 </tree>
                             </field>
-                        </page>
-                        <page string="Winners" name="attribute"
-                              attrs="{'invisible': [('state','in', ['draft','training','cancel','training_completed','split','confirm'])]}">
-                            <h3 align="center" style="color: green">Winner is</h3>
-                            <group>
-
-                                <field name="winner_id" widget="many2many_tags"/>
+                            <group class="oe_subtotal_footer oe_right">
+                                <group>
+                                    <field name="count_batch_students"/>
+                                    <field name="count_attended_upaya"/>
+                                    <field name="attend_std_total_std" invisible="1"/>
+                                    <field name="total_batch_score"/>
+                                </group>
                             </group>
+                        </page>
+
+                        <page string="Winners" name="winner_page"
+                              attrs="{'invisible': [('state','in', ['draft','training','cancel','training_completed','split','confirm'])]}"
+                              class="winning-fire-effect">
+                            <div name="winners">
+                                <h3 align="center" style="color: green">Congratulations, champions of this Upaya
+                                    batch!
+                                </h3>
+                                <group>
+
+                                    <field name="winner_id" widget="many2many_tags"/>
+                                </group>
+                            </div>
                         </page>
                     </notebook>
                 </sheet>
@@ -100,6 +139,7 @@
             </form>
         </field>
     </record>
+
     <record id="upaya_module_tree" model="ir.ui.view">
         <field name="name">Upaya</field>
         <field name="model">upaya.form</field>
@@ -107,8 +147,10 @@
             <tree>
                 <field name="name"/>
                 <field name="batch_id"/>
-                <field name="state"/>
 
+                <field name="attend_std_total_std"/>
+                <field name="total_batch_score"/>
+                <field name="state" decoration-success="state == 'complete'" decoration-info="state == 'confirm'" decoration-danger="state == 'cancel'" widget="badge"/>
             </tree>
 
         </field>
