@@ -11,6 +11,7 @@ class UpayaForm(models.Model):
     name = fields.Char('Name')
 
     batch_id = fields.Many2one('logic.base.batch', string='Batch', required=True)
+    branch = fields.Many2one('logic.base.branches', related='batch_id.branch_id', string='Branch')
     date = fields.Date('Upaya Date', required=True)
     from_date = fields.Date('From Date')
     to_date = fields.Date('To Date')

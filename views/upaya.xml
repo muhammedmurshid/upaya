@@ -59,6 +59,7 @@
                         <group>
                             <field name="type"/>
                             <field name="batch_id"/>
+                            <field name="branch"/>
                             <field name="date"/>
                             <field name="batch_start_date" invisible="1"/>
                             <field name="batch_end_date" invisible="1"/>
