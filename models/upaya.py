@@ -32,6 +32,12 @@ class UpayaForm(models.Model):
     #                                      default=lambda self: self.env.user)
     skills_ids = fields.One2many('upaya.skills', 'skill_id')
 
+    #digital team
+    digital_support_received = fields.Boolean(string='Digital Support Received')
+    rating = fields.Selection(
+        selection=[('0', 'No rating'), ('1', 'Very Poor'), ('2', 'Poor'), ('3', 'Average'), ('4', 'Good'),
+                   ('5', 'Very Good')], string="Rating", default='0')
+
     def training_start(self):
         self.state = 'training'
 

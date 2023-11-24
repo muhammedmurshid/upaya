@@ -75,6 +75,10 @@
                             <field name="make_visible_academic_head" invisible="1"/>
                             <field name="coordinator_id"/>
                         </group>
+                        <group string="Rating" attrs="{'invisible': [('state', '!=', 'complete')]}">
+                            <field name="digital_support_received" attrs="{'invisible': [('state', '!=', 'complete')]}"/>
+                            <field name="rating" widget="priority" attrs="{'invisible': [('digital_support_received', '!=', True)]}"/>
+                        </group>
                     </group>
                     <notebook>
                         <page string="Students" name="attribute">
