@@ -16,6 +16,7 @@ class UpayaForm(models.Model):
     date = fields.Date('Upaya Date', required=True)
     from_date = fields.Date('From Date')
     to_date = fields.Date('To Date')
+    create_date = fields.Datetime('Added Date', default=fields.Datetime.now)
     batch_start_date = fields.Date('Batch Start Date', )
     batch_end_date = fields.Date('Batch End Date', )
     subject_for_presentation = fields.Char('Subject For Presentation')
