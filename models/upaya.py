@@ -11,6 +11,8 @@ class UpayaForm(models.Model):
     name = fields.Char('Name')
 
     batch_id = fields.Many2one('logic.base.batch', string='Batch', required=True)
+    batch_ids = fields.Many2many('logic.base.batch', string='Batches', help="if you want to add multiple batch",
+                                 placeholder="if you want to add multiple batch")
     course_id = fields.Many2one('logic.base.courses', string='Course', related='batch_id.course_id')
     branch = fields.Many2one('logic.base.branches', related='batch_id.branch_id', string='Branch')
     date = fields.Date('Upaya Date', required=True)
@@ -66,18 +68,27 @@ class UpayaForm(models.Model):
                 raise UserError("Please Add Specific Team For Each Student")
 
     def action_start_upaya(self):
-        students = self.env['logic.students'].search([('batch_id', '=', self.batch_id.id)])
+        students = self.env['logic.students'].search([])
         abc = []
         unlink_commands = [(3, child.id) for child in self.skills_ids]
         self.write({'skills_ids': unlink_commands})
 
         for i in students:
-            res_list = {
-                'name': i.name,
-                'student_id': i.id,
+            if i.batch_id.id == self.batch_id.id:
+                res_list = {
+                    'name': i.name,
+                    'student_id': i.id,
 
-            }
-            abc.append((0, 0, res_list))
+                }
+                abc.append((0, 0, res_list))
+            if i.batch_id.id in self.batch_ids.ids:
+                res_list = {
+                    'name': i.name,
+                    'student_id': i.id,
+
+                }
+                abc.append((0, 0, res_list))
+
         self.skills_ids = abc
 
         # students_attended = []
@@ -229,20 +240,29 @@ class UpayaForm(models.Model):
         other_activity_ids.unlink()
         self.state = 'cancel'
 
-    @api.onchange('batch_id')
+    @api.onchange('batch_id', 'batch_ids')
     def onchange_batch_id_for_attendance(self):
-        students = self.env['logic.students'].search([('batch_id', '=', self.batch_id.id)])
+        students = self.env['logic.students'].search([])
         abc = []
         unlink_commands = [(3, child.id) for child in self.upaya_attendance_ids]
         self.write({'upaya_attendance_ids': unlink_commands})
 
         for i in students:
-            res_list = {
-                'name': i.name,
-                'student_id': i.id,
+            if i.batch_id.id == self.batch_id.id:
+                res_list = {
+                    'name': i.name,
+                    'student_id': i.id,
 
-            }
-            abc.append((0, 0, res_list))
+                }
+                abc.append((0, 0, res_list))
+            if i.batch_id.id in self.batch_ids.ids:
+                res_list = {
+                    'name': i.name,
+                    'student_id': i.id,
+
+                }
+                abc.append((0, 0, res_list))
+
         self.upaya_attendance_ids = abc
 
     def create_send_activity_users(self):

@@ -2,7 +2,7 @@
 <odoo>
     <template id="custom_form_view" inherit_id="upaya.logic_upaya_module_form">
         <xpath expr="//field[@name='winner_id']" position="inside">
-            <div class="champions-stars-effect"></div>
+<!--            <div class="champions-stars-effect"></div>-->
         </xpath>
     </template>
 
@@ -59,6 +59,7 @@
                         <group>
                             <field name="type"/>
                             <field name="batch_id"/>
+                            <field name="batch_ids" widget="many2many_tags" placeholder="if you want multiple batches"/>
                             <field name="course_id"/>
                             <field name="branch"/>
                             <field name="date"/>
@@ -78,8 +79,10 @@
                             <field name="create_date"/>
                         </group>
                         <group string="Rating" attrs="{'invisible': [('state', '!=', 'complete')]}">
-                            <field name="digital_support_received" attrs="{'invisible': [('state', '!=', 'complete')]}"/>
-                            <field name="rating" widget="priority" attrs="{'invisible': [('digital_support_received', '!=', True)]}"/>
+                            <field name="digital_support_received"
+                                   attrs="{'invisible': [('state', '!=', 'complete')]}"/>
+                            <field name="rating" widget="priority"
+                                   attrs="{'invisible': [('digital_support_received', '!=', True)]}"/>
                         </group>
                     </group>
                     <notebook>
@@ -158,7 +161,8 @@
 
                 <field name="attend_std_total_std"/>
                 <field name="total_batch_score"/>
-                <field name="state" decoration-success="state == 'complete'" decoration-info="state == 'confirm'" decoration-danger="state == 'cancel'" widget="badge"/>
+                <field name="state" decoration-success="state == 'complete'" decoration-info="state == 'confirm'"
+                       decoration-danger="state == 'cancel'" widget="badge"/>
             </tree>
 
         </field>
